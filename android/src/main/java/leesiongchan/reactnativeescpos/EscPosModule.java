@@ -14,6 +14,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.io.IOException;
@@ -179,6 +180,31 @@ public class EscPosModule extends ReactContextBaseJavaModule {
         promise.resolve(true);
     }
 
+
+    @ReactMethod
+    public void raw( ReadableArray readableArray){
+        byte[] bytesArr = new byte[readableArray.size() / 8 + 1];
+        for (int entry = 0; entry < bytesArr.length; entry++) {
+            for (int bit = 0; bit < 8; bit++) {
+                if (readableArray.getBoolean(entry * 8 + bit)) {
+                    bytesArr[entry] |= (128 >> bit);
+                }
+            }
+        }
+        printerService.write(bytesArr);
+    }
+
+
+    @ReactMethod
+    public void rawSample(  Promise promise){
+        
+        byte[] command = new byte[] {0x1b,0x40,0x0A,0x0A,0x0A,0x1D,0x56,0x01};
+        printerService.write(command);
+
+        promise.resolve(true);
+    }
+    
+    
     @ReactMethod
     public void setCharCode(String code) {
         printerService.setCharCode(code);
