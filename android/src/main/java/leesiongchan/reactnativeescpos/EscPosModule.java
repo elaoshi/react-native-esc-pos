@@ -198,12 +198,21 @@ public class EscPosModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void rawSample(  Promise promise){
         
-        byte[] command = new byte[] {0x1b,0x40,0x0A,0x0A,0x0A,0x1D,0x56,0x01};
+        byte[] command = new byte[] {0x1b,0x40,0x1b,0x64,0x05,0x1D,0x56,0x01};
         printerService.write(command);
 
         promise.resolve(true);
     }
-    
+
+    @ReactMethod
+    public void rawSampleApple(  Promise promise){
+        
+        byte[] command = new byte[] {0x1b,0x40,0x1b,0x64,0x05,0x1D,0x56,0x01};
+        printerService.write(command);
+
+        promise.resolve(true);
+    }
+
     
     @ReactMethod
     public void setCharCode(String code) {
